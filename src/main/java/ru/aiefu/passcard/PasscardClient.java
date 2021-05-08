@@ -5,8 +5,12 @@ import com.google.crypto.tink.KeysetHandle;
 import com.google.crypto.tink.proto.Keyset;
 import com.google.protobuf.InvalidProtocolBufferException;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.LiteralText;
+import ru.aiefu.passcard.compat.OriginsCompat;
+import ru.aiefu.passcard.compat.OriginsCompatClient;
 import ru.aiefu.passcard.gui.LoginScreen;
 
 import java.security.GeneralSecurityException;
@@ -43,5 +47,10 @@ public class PasscardClient implements ClientModInitializer {
                 e.printStackTrace();
             }
         });
+        if(FabricLoader.getInstance().isModLoaded("origins")){
+            ClientPlayConnectionEvents.INIT.register((handler, client) -> {
+                OriginsCompatClient.registerOriginsReceiver();
+            });
+        }
     }
 }

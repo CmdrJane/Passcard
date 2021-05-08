@@ -6,11 +6,13 @@ public class PlayerDB {
     public String playerName;
     private String password;
     private String lastIp;
+    private long session;
 
-    public PlayerDB(String playerName, String password, String ip) {
+    public PlayerDB(String playerName, String password, String ip, long session) {
         this.playerName = playerName;
         this.password = password;
         this.lastIp = ip;
+        this.session = session;
     }
     @Nullable
     public String getPassword(){
@@ -24,5 +26,11 @@ public class PlayerDB {
     }
     public void setLastIp(String lastIp){
         this.lastIp = lastIp;
+    }
+    public long getSession(){
+        return this.session;
+    }
+    public void setSession(long session){
+        this.session = session;
     }
 }

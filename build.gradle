@@ -13,7 +13,21 @@ group = project.maven_group
 repositories {
 	maven { url "https://repo.maven.apache.org"}
 	mavenCentral()
+	maven { url "https://www.cursemaven.com" }
 	maven { url "https://jitpack.io" }
+	maven {
+		url 'https://ladysnake.jfrog.io/artifactory/mods'
+	}
+	maven {
+		url "https://maven.jamieswhiteshirt.com/libs-release/"
+	}
+	maven {
+		url "https://maven.terraformersmc.com/"
+	}
+	maven { url "https://maven.shedaniel.me/" }
+	flatDir {
+		dirs 'libs'
+	}
 }
 
 dependencies {
@@ -24,6 +38,7 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "com.github.apace100:origins-fabric:master"
 	implementation "com.google.crypto.tink:tink:1.5.0"
 	implementation "at.favre.lib:bcrypt:0.9.0"
 	include "com.google.crypto.tink:tink:1.5.0"

@@ -11,6 +11,7 @@
     "SlotMixins"
   ],
   "client": [
+    "OriginsS2CPacketsMixins"
   ],
   "injectors": {
     "defaultRequire": 1

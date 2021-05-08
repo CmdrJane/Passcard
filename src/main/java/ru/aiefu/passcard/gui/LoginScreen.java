@@ -42,7 +42,7 @@ public class LoginScreen extends Screen {
         this.centerY = height / 2;
         super.init(client, width, height);
         this.password = new PasswordWidget(this.textRenderer, centerX - 90, centerY - 10, 180, 20, new TranslatableText("passcard.passfield"));
-        this.password.setMaxLength(24);
+        this.password.setMaxLength(16);
         this.password.setDrawsBackground(true);
         this.password.setEditableColor(0xffffff);
         this.password.setVisible(true);
@@ -56,7 +56,7 @@ public class LoginScreen extends Screen {
                 String pass = this.password.getText();
                 HybridEncrypt hybridEncrypt = this.publicKey.getPrimitive(HybridEncrypt.class);
                 byte[] byteArr = hybridEncrypt.encrypt(pass.getBytes(StandardCharsets.UTF_8), null);
-                this.client.execute(() -> client.openScreen(new PlaceHolderScreen(new LiteralText("Logging in..."), new LiteralText(""), false)));
+                this.client.execute(() -> client.openScreen(new PlaceHolderScreen(new LiteralText(""), new LiteralText(""), false)));
                 ClientPlayNetworking.send(PacketsIDs.SEND_AUTH_REQUEST, new PacketByteBuf(Unpooled.buffer()).writeByteArray(byteArr));
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();

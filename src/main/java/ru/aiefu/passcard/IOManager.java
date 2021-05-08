@@ -13,17 +13,17 @@ public class IOManager {
     public static void writePlayerData(ServerPlayerEntity player){
         PlayerDB db = ((IPlayerPass)player).getPlayerDB();
         String gson = new GsonBuilder().setPrettyPrinting().create().toJson(db);
-        File file = new File("./config/Passcard/player-data/"+ player.getUuidAsString()+ ".json");
+        File file = new File("./config/Passcard/player-data/"+ Passcard.getUUIDIgnoreCase(player)+ ".json");
         fileWriter(file, gson);
     }
 
     public static PlayerDB readPlayerData(ServerPlayerEntity player){
         PlayerDB playerDB;
         try {
-            playerDB = new Gson().fromJson(new FileReader("./config/Passcard/player-data/"+ player.getUuidAsString()+ ".json"), PlayerDB.class);
+            playerDB = new Gson().fromJson(new FileReader("./config/Passcard/player-data/"+ Passcard.getUUIDIgnoreCase(player)+ ".json"), PlayerDB.class);
         } catch (Exception e){
             e.printStackTrace();
-            playerDB = new PlayerDB(player.getName().getString(), null, player.getIp());
+            playerDB = new PlayerDB(player.getName().getString(), null, player.getIp(), 0);
         }
         return playerDB;
     }
