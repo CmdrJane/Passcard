@@ -22,7 +22,7 @@ public class IOManager {
         try {
             playerDB = new Gson().fromJson(new FileReader("./config/Passcard/player-data/"+ Passcard.getUUIDIgnoreCase(player)+ ".json"), PlayerDB.class);
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Cannot find player profile, generating new one");
             playerDB = new PlayerDB(player.getName().getString(), null, player.getIp(), 0);
         }
         return playerDB;

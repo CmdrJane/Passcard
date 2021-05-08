@@ -43,6 +43,7 @@ dependencies {
 	implementation "at.favre.lib:bcrypt:0.9.0"
 	include "com.google.crypto.tink:tink:1.5.0"
 	include "at.favre.lib:bcrypt:0.9.0"
+	include "com.google.protobuf:protobuf-java:3.11.1"
 
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
