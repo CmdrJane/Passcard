@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "passcard",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Passcard",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
@@ -14,16 +14,19 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/passcard/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "ru.aiefu.passcard.Passcard"
+    ],
+    "client": [
+      "ru.aiefu.passcard.PasscardClient"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "passcard.mixins.json"
   ],
 
   "depends": {
