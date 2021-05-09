@@ -16,7 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class OriginsS2CPacketsMixins {
     @Inject(method = "openOriginScreen", at =@At("HEAD"), remap = false, cancellable = true)
     private static void preventOpeningIfNotLogged(MinecraftClient minecraftClient, ClientPlayNetworkHandler clientPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender, CallbackInfo ci){
-       ci.cancel();
-       return;
+        if(packetByteBuf.readBoolean()) {
+            ci.cancel();
+            return;
+        }
     }
 }
