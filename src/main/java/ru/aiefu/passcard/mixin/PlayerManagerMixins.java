@@ -72,6 +72,8 @@ public abstract class PlayerManagerMixins {
     }
     @Inject(method = "remove", at =@At("HEAD"))
     private void setPasscardSessionTime(ServerPlayerEntity player, CallbackInfo ci){
-        ((IPlayerPass)player).getPlayerDB().setSession(DateUtils.addMinutes(new Date(), 15).getTime());
+        if(((IPlayerPass)player).getAuthState()) {
+            ((IPlayerPass) player).getPlayerDB().setSession(DateUtils.addMinutes(new Date(), 15).getTime());
+        }
     }
 }
