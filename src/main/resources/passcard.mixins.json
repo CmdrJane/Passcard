@@ -4,6 +4,7 @@
   "package": "ru.aiefu.passcard.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "OriginsModItemsMixins",
     "PlayerManagerMixins",
     "PlayerMixins",
     "ServerPlayerEntityMixins",

@@ -80,6 +80,7 @@ public class Passcard implements ModInitializer {
 							playerDB.setLastIp(player.getIp());
 							playerPass.setAuthState(true);
 							IOManager.writePlayerData(player);
+							IOManager.writePlayerReserveData(player);
 							playerPass.setPrivateKey(null);
 							if(FabricLoader.getInstance().isModLoaded("origins")){
 								OriginsCompat.openOriginsScreen(player);

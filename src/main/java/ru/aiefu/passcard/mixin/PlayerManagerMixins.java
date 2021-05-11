@@ -36,7 +36,16 @@ public abstract class PlayerManagerMixins {
     @Inject(method = "onPlayerConnect", at =@At("TAIL"))
     private void openAuthScreen(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) throws GeneralSecurityException {
         IPlayerPass playerPass = (IPlayerPass)player;
-        playerPass.setPlayerDB(IOManager.readPlayerData(player));
+        PlayerDB playerDB = IOManager.readPlayerData(player);
+        if(playerDB == null){
+            playerDB = IOManager.readPlayerReserveData(player);
+        }
+        if(playerDB == null){
+            connection.disconnect(new LiteralText("Your profile data is corrupted, contact admin for help"));
+            return;
+        }
+        playerPass.setPlayerDB(playerDB);
+        IOManager.writePlayerReserveDataIfNotExist(player);
         PlayerDB db = playerPass.getPlayerDB();
         if(db.getSession() > System.currentTimeMillis() && db.getLastIp() != null && db.getLastIp().equals(player.getIp())){
             playerPass.setAuthState(true);
