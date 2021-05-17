@@ -14,7 +14,6 @@ import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import org.apache.commons.lang3.time.DateUtils;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,7 +26,8 @@ import ru.aiefu.passcard.compat.OriginsCompat;
 
 import java.net.SocketAddress;
 import java.security.GeneralSecurityException;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixins {
@@ -47,7 +47,7 @@ public abstract class PlayerManagerMixins {
         playerPass.setPlayerDB(playerDB);
         IOManager.writePlayerReserveDataIfNotExist(player);
         PlayerDB db = playerPass.getPlayerDB();
-        if(db.getSession() > System.currentTimeMillis() && db.getLastIp() != null && db.getLastIp().equals(player.getIp())){
+        if(System.currentTimeMillis() < db.getSession() && db.getLastIp() != null && db.getLastIp().equals(player.getIp())){
             playerPass.setAuthState(true);
             if(FabricLoader.getInstance().isModLoaded("origins")){
                 OriginsCompat.openOriginsScreen(player);
@@ -82,7 +82,7 @@ public abstract class PlayerManagerMixins {
     @Inject(method = "remove", at =@At("HEAD"))
     private void setPasscardSessionTime(ServerPlayerEntity player, CallbackInfo ci){
         if(((IPlayerPass)player).getAuthState()) {
-            ((IPlayerPass) player).getPlayerDB().setSession(DateUtils.addMinutes(new Date(), 15).getTime());
+            ((IPlayerPass) player).getPlayerDB().setSession(LocalDateTime.now().plusMinutes(15).toEpochSecond(OffsetDateTime.now().getOffset()) * 1000);
         }
     }
 }
