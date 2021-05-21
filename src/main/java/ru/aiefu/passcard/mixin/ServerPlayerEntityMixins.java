@@ -2,6 +2,7 @@ package ru.aiefu.passcard.mixin;
 
 import com.google.crypto.tink.KeysetHandle;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import ru.aiefu.passcard.IPlayerPass;
 import ru.aiefu.passcard.Passcard;
 import ru.aiefu.passcard.PlayerDB;
@@ -29,6 +31,22 @@ public abstract class ServerPlayerEntityMixins extends PlayerEntity implements I
     boolean authState = false;
     private int retries = 0;
     private int timeoutTimer = 0;
+
+    @Inject(method = "damage", at =@At("HEAD"), cancellable = true)
+    private void cancelDamageIfNotLoggedIn(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir){
+        if(!this.authState){
+            cir.setReturnValue(false);
+            cir.cancel();
+            return;
+        }
+    }
+
+    @Inject(method = "tick", at =@At("HEAD"), cancellable = true)
+    private void cancelTickIfNotLoggedIn(CallbackInfo ci){
+        if(!this.authState){
+            ci.cancel();
+        }
+    }
 
     @Inject(method = "playerTick", at =@At("HEAD"), cancellable = true)
     public void timeOutTimer(CallbackInfo ci){
