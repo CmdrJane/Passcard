@@ -26,6 +26,7 @@ public abstract class ServerPlayerEntityMixins extends PlayerEntity implements I
     }
 
     @Shadow public ServerPlayNetworkHandler networkHandler;
+    @Shadow private int joinInvulnerabilityTicks;
     KeysetHandle privateKey = null;
     private PlayerDB playerDB;
     boolean authState = false;
@@ -103,5 +104,10 @@ public abstract class ServerPlayerEntityMixins extends PlayerEntity implements I
     @Override
     public void resetTimeoutTimer() {
         this.timeoutTimer = 0;
+    }
+
+    @Override
+    public void setJoinInvTicks(int ticks) {
+        this.joinInvulnerabilityTicks = ticks;
     }
 }

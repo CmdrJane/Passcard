@@ -2,8 +2,6 @@ package ru.aiefu.passcard;
 
 import com.google.crypto.tink.KeysetHandle;
 
-import java.util.Date;
-
 public interface IPlayerPass {
     void setPrivateKey(KeysetHandle handler);
     KeysetHandle getPrivateKey();
@@ -14,4 +12,5 @@ public interface IPlayerPass {
     void setRetries(int r);
     int getRetries();
     void resetTimeoutTimer();
+    void setJoinInvTicks(int ticks);
 }

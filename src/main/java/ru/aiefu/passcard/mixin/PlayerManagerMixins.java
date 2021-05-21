@@ -36,6 +36,7 @@ public abstract class PlayerManagerMixins {
     @Inject(method = "onPlayerConnect", at =@At("TAIL"))
     private void openAuthScreen(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) throws GeneralSecurityException {
         IPlayerPass playerPass = (IPlayerPass)player;
+        playerPass.setJoinInvTicks(100);
         PlayerDB playerDB = IOManager.readPlayerData(player);
         if(playerDB == null){
             playerDB = IOManager.readPlayerReserveData(player);
