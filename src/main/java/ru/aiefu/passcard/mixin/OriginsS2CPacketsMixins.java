@@ -10,12 +10,11 @@ import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Pseudo
 @Mixin(ModPacketsS2C.class)
 public class OriginsS2CPacketsMixins {
-    @Inject(method = "openOriginScreen", at =@At(value = "INVOKE", target = "net/minecraft/network/PacketByteBuf.readBoolean()Z", shift = At.Shift.AFTER), remap = false, locals = LocalCapture.PRINT, cancellable = true)
+    @Inject(method = "openOriginScreen", at =@At(value = "INVOKE", target = "net/minecraft/network/PacketByteBuf.readBoolean()Z", shift = At.Shift.AFTER), remap = false, cancellable = true)
     private static void preventOpeningIfNotLogged(MinecraftClient minecraftClient, ClientPlayNetworkHandler clientPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender, CallbackInfo ci){
         ci.cancel();
         return;
