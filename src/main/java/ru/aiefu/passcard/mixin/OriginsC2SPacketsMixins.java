@@ -18,7 +18,7 @@ import ru.aiefu.passcard.IPlayerPass;
 public class OriginsC2SPacketsMixins {
     @Inject(method = "useActivePowers", at =@At("HEAD"), remap = false, cancellable = true)
     private static void preventActiveUseIfNotLoggedIn(MinecraftServer minecraftServer, ServerPlayerEntity playerEntity, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender, CallbackInfo ci){
-        if( !((IPlayerPass)serverPlayNetworkHandler).getAuthState() ){
+        if( !((IPlayerPass)playerEntity).getAuthState() ){
             ci.cancel();
             return;
         }
